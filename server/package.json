@@ -1,0 +1,30 @@
+{
+  "name": "objection-trial-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "npx ts-node-dev src/server.ts --watch src",
+    "compile": "tsc",
+    "migrate:make": "npx knex migrate:make init --knexfile ./src/knexfile.ts",
+    "seed:make": "npx knex seed:make init --knexfile ./src/knexfile.ts",
+    "seed:rollback": "ts-node ./src/rollback-seeds.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "knex": "^0.21.19",
+    "objection": "^2.2.15",
+    "pg": "^8.6.0"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.12",
+    "nodemon": "^2.0.7",
+    "ts-node": "^10.0.0",
+    "ts-node-dev": "^1.1.6",
+    "typescript": "^4.3.4"
+  }
+}

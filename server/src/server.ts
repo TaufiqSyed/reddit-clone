@@ -9,8 +9,8 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use('/api/v1', api)
 
-app.listen(5050, () => {
-  console.log('Server listening on port 5050')
+app.listen(3001, () => {
+  console.log('Server listening on port 3001')
 })
 
 // async function createSchema() {

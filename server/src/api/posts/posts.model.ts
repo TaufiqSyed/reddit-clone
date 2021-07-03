@@ -3,6 +3,7 @@ import tableNames from '../../constants/table-names'
 import connection from '../../db'
 import User from '../users/users.model'
 import Comment from '../comments/comments.model'
+import PostVote from '../votes/post-votes.model'
 Model.knex(connection)
 export default class Post extends Model {
   id!: number
@@ -29,6 +30,14 @@ export default class Post extends Model {
         join: {
           from: tableNames.post + '.id',
           to: tableNames.comment + '.post_id',
+        },
+      },
+      votes: {
+        relation: Model.HasManyRelation,
+        modelClass: PostVote,
+        join: {
+          from: tableNames.post + '.id',
+          to: tableNames.postVote + '.post_id',
         },
       },
     }

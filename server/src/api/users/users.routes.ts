@@ -1,5 +1,6 @@
 import { Router } from 'express'
 import User from './users.model'
+import bcrypt from 'bcrypt'
 const router = Router()
 
 router.get('/', (req, res) => {

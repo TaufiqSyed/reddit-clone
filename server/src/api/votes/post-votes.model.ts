@@ -1,26 +1,24 @@
-import { Model } from 'objection'
+import { Model, QueryContext } from 'objection'
 import tableNames from '../../constants/table-names'
-import connection from '../../config/db'
 import Post from '../posts/posts.model'
 import User from '../users/users.model'
 
-Model.knex(connection)
-export default class Comment extends Model {
+export default class PostVote extends Model {
   id!: number
-  content!: string
   user_id!: number
   post_id!: number
-
+  vote_score!: number // 0 | 1 | -1
   static get tableName() {
-    return tableNames.comment
+    return tableNames.postVote
   }
+
   static get relationMappings() {
     return {
       user: {
         relation: Model.BelongsToOneRelation,
         modelClass: User,
         join: {
-          from: tableNames.comment + '.user_id',
+          from: tableNames.postVote + '.user_id',
           to: tableNames.user + '.id',
         },
       },
@@ -28,8 +26,8 @@ export default class Comment extends Model {
         relation: Model.BelongsToOneRelation,
         modelClass: Post,
         join: {
-          from: tableNames.comment + '.post_id',
-          to: tableNames.post + '.id',
+          from: tableNames.postVote + '.post_id',
+          to: tableNames.user + '.id',
         },
       },
     }
@@ -37,13 +35,13 @@ export default class Comment extends Model {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['content', 'user_id', 'post_id'],
+      required: ['post_id', 'user_id', 'vote_score'],
 
       properties: {
         id: { type: 'integer' },
-        content: { type: 'string', minLength: 1, maxLength: 255 },
         user_id: { type: 'integer' },
         post_id: { type: 'integer' },
+        vote_score: { type: 'integer' },
       },
     }
   }

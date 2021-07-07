@@ -4,7 +4,7 @@ import connection from '../../config/db'
 import User from '../users/users.model'
 import Comment from '../comments/comments.model'
 import PostVote from '../votes/post-votes.model'
-Model.knex(connection)
+
 export default class Post extends Model {
   id!: number
   title!: string

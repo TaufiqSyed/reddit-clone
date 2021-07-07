@@ -1,9 +1,10 @@
 import knex from 'knex'
-// import { Model } from 'objection';
+import { Model } from 'objection'
+const knexfile = require('../../knexfile')
 
-// const connectionConfig = knexfile['development']
-// const connection = knex(connectionConfig)
+const connectionConfig = knexfile['development']
+const connection = knex(connectionConfig)
 
-// Model.knex(connection);
+Model.knex(connection)
 
-export default knex(require('../knexfile')['development'])
+export default connection

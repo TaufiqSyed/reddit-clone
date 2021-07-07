@@ -1,4 +1,5 @@
 import { Router } from 'express'
+import { isAuth } from '../auth/auth-middleware'
 import Comment from './comments.model'
 const router = Router()
 
@@ -15,13 +16,12 @@ router.get('/', (req, res) => {
   return
 })
 
-router.post('/', (req, res) => {
+router.post('/', isAuth, (req, res) => {
   const content: string = req.body.content
 
-  let user_id: number
+  const user_id = req.user.id
   let post_id: number
   try {
-    user_id = parseInt(req.body.user_id)
     post_id = parseInt(req.body.post_id)
   } catch (err) {
     return res.status(400).send()

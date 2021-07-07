@@ -4,7 +4,6 @@ import connection from '../../config/db'
 import Post from '../posts/posts.model'
 import User from '../users/users.model'
 
-Model.knex(connection)
 export default class Comment extends Model {
   id!: number
   content!: string

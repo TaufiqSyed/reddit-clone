@@ -1,42 +1,37 @@
 import dotenv from 'dotenv'
 dotenv.config()
+import apiRouter from './api'
+import express, { Request, Response, NextFunction } from 'express'
+import { Model } from 'objection'
+import session from 'express-session'
+import connection from './config/db'
+import passport from 'passport'
 
-import api from './api'
-import express from 'express'
 const app = express()
+
+Model.knex(connection)
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
-app.use('/api/v1', api)
+app.use(
+  session({
+    secret: process.env.SECRET,
+    resave: false,
+    saveUninitialized: false,
+  })
+)
+
+require('./config/passport')
+app.use(passport.initialize())
+app.use(passport.session())
+
+app.use('/api/v1', apiRouter)
 
 app.listen(3001, () => {
   console.log('Server listening on port 3001')
 })
 
-// async function createSchema() {
-//   await knex.schema.dropTableIfExists(tableNames.user)
-//   await knex.schema.createTable('users', table => {
-//     table.increments('id').primary();
-//     table.string('username');
-//     table.string('password_hash');
-//   });
-// }
-
-// async function main() {
-//   // Create some people.
-//   const sylvester = await User.query().insertGraph({
-//     username: 'Sylvester',
-//     password_hash: 'password'
-//   });
-
-//   console.log('created:', sylvester);
-// }
-
-// createSchema()
-//   .then(() => main())
-//   .then(() => knex.destroy())
-//   .catch(err => {
-//     console.error(err);
-
-//     return knex.destroy();
-//   });
+app.use((err: any, req: Request, res: Response, next: NextFunction) => {
+  console.error(err.stack)
+  res.status(500).send('Something broke!')
+})

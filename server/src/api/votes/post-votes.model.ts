@@ -7,7 +7,7 @@ export default class PostVote extends Model {
   id!: number
   user_id!: number
   post_id!: number
-  vote_score!: number // 0 | 1 | -1
+  vote_score!: number
   static get tableName() {
     return tableNames.postVote
   }

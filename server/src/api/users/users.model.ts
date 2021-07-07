@@ -1,14 +1,15 @@
 import { Model } from 'objection'
 import tableNames from '../../constants/table-names'
-import connection from '../../config/db'
+// import connection from '../../config/db'
 import Post from '../posts/posts.model'
 import Comment from '../comments/comments.model'
 
-Model.knex(connection)
+// Model.knex(connection)
 export default class User extends Model {
   id!: number
   username!: string
   password!: string
+  admin!: boolean
 
   static get tableName() {
     return tableNames.user
@@ -43,6 +44,7 @@ export default class User extends Model {
         id: { type: 'integer' },
         username: { type: 'string', minLength: 1, maxLength: 255 },
         password: { type: 'string', minLength: 1, maxLength: 255 },
+        admin: { type: 'boolean' },
       },
     }
   }

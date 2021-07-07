@@ -1,6 +1,6 @@
 import * as Knex from 'knex'
 import tableNames from './constants/table-names'
-import connection from './db'
+import connection from './config/db'
 ;(async (knex: Knex): Promise<void> => {
   // Deletes ALL existing entries
   await knex(tableNames.comment).del()

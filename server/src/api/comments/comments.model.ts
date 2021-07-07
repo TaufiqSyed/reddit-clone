@@ -1,6 +1,6 @@
 import { Model } from 'objection'
 import tableNames from '../../constants/table-names'
-import connection from '../../db'
+import connection from '../../config/db'
 import Post from '../posts/posts.model'
 import User from '../users/users.model'
 

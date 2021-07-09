@@ -11,22 +11,28 @@ import {
   Heading,
   useColorMode,
   useToken,
+  Alert,
+  AlertIcon,
+  CloseButton,
 } from '@chakra-ui/react'
 import { DarkModeSwitch } from '../components/DarkModeSwitch'
 import { Formik, Form } from 'formik'
 
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { DisplayingRegisterErrorMessagesSchema } from '../validation'
 import axios from 'axios'
 import { useRouter } from 'next/dist/client/router'
 
 const Register = () => {
-  const [gray200, black] = useToken('colors', ['gray.200', 'black'])
+  const [gray250, black] = useToken('colors', ['gray.250', 'black'])
   const { colorMode } = useColorMode()
   const borderColor = { light: 'gray.400', dark: '#2D3748' }
   const registerBoxBgColor = { light: 'gray.50', dark: 'gray.900' }
-  const bodyBackgroundColor = { light: gray200, dark: black }
+  const bodyBackgroundColor = { light: gray250, dark: black }
+  const [registerSuccessful, setRegisterSuccessful] = useState<
+    boolean | undefined
+  >(undefined)
 
   const router = useRouter()
 
@@ -41,31 +47,56 @@ const Register = () => {
         borderRadius='5px'
         border='1px solid'
         borderColor={borderColor[colorMode]}
-        width='700px'
+        width='500px'
         bgColor={registerBoxBgColor[colorMode]}
-        p='20px 40px 20px 40px'
-        m='30px auto auto auto'
+        p='20px 30px 30px 30px'
+        m='100px auto auto auto'
       >
+        {registerSuccessful !== undefined && (
+          <Alert
+            status={registerSuccessful ? 'success' : 'error'}
+            p='10px 20px'
+            m='0'
+            mb='20px'
+            borderRadius='5px'
+          >
+            <AlertIcon />
+            {registerSuccessful
+              ? 'Successfully registered account!'
+              : 'Username already exists'}
+            <CloseButton
+              size='sm'
+              position='absolute'
+              right='10px'
+              onClick={() => setRegisterSuccessful(undefined)}
+            />
+          </Alert>
+        )}
         <Formik
           initialValues={{
             username: '',
-            email: '',
             password: '',
             passwordConfirmation: '',
           }}
           validationSchema={DisplayingRegisterErrorMessagesSchema}
           onSubmit={(values, { setSubmitting }) => {
             const res = axios
-              .post('http://localhost:3001/api/v1/user/register', {
+              .post('http://localhost:3001/api/v1/users', {
                 username: values.username,
-                email: values.email,
                 password: values.password,
               })
               .then(response => {
-                console.log(response.status)
+                console.log(response)
+                if (response.status === 400 || response.status === 500) {
+                  setRegisterSuccessful(false)
+                } else {
+                  setRegisterSuccessful(true)
+                }
+                setTimeout(() => router.push('/login'), 1000)
               })
               .catch(err => {
-                console.log(err)
+                setRegisterSuccessful(false)
+                console.error(err)
               })
             setSubmitting(false)
           }}
@@ -78,14 +109,13 @@ const Register = () => {
             handleBlur,
             handleSubmit,
             isSubmitting,
-            /* and other goodies */
           }) => (
             <Form onSubmit={handleSubmit} style={{ width: '100%' }}>
-              <Heading as='h2' size='lg' m='10px 0 40px 0'>
-                Register New Account
+              <Heading fontSize='25px' m='10px 0 40px 0'>
+                Sign up to Reddit
               </Heading>
               <DarkModeSwitch />
-              <Stack spacing='14px' mb='42px'>
+              <Stack spacing='14px'>
                 <FormControl
                   isRequired
                   isInvalid={errors.username && touched.username}
@@ -99,20 +129,6 @@ const Register = () => {
                     value={values.username}
                   />
                   <FormErrorMessage>{errors.username}</FormErrorMessage>
-                </FormControl>
-                <FormControl
-                  isRequired
-                  isInvalid={errors.email && touched.email}
-                >
-                  <FormLabel>Email</FormLabel>
-                  <Input
-                    type='email'
-                    name='email'
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={values.email}
-                  />
-                  <FormErrorMessage>{errors.email}</FormErrorMessage>
                 </FormControl>
                 <FormControl
                   isRequired
@@ -150,12 +166,16 @@ const Register = () => {
               <Button
                 type='submit'
                 disabled={isSubmitting}
+                fontSize='13px'
                 w='100%'
-                h='3em'
-                m='auto auto auto auto'
-                colorScheme='scarlet'
+                h='50px'
+                m='30px auto 0 auto'
+                borderRadius='25px'
+                colorScheme='blue'
+                letterSpacing='1.5px'
+                fontWeight='bold'
               >
-                Submit
+                SIGN UP
               </Button>
             </Form>
           )}

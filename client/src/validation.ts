@@ -5,7 +5,7 @@ export const DisplayingRegisterErrorMessagesSchema = Yup.object().shape({
     .min(6, 'Too Short!')
     .max(35, 'Too Long!')
     .required('Required'),
-  email: Yup.string().email('Invalid email').required('Required'),
+  // email: Yup.string().email('Invalid email').required('Required'),
   password: Yup.string()
 
     .min(8, 'Must contain atleast 8 characters')

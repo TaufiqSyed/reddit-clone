@@ -86,7 +86,6 @@ const Register = () => {
                 password: values.password,
               })
               .then(response => {
-                console.log(response)
                 if (response.status === 400 || response.status === 500) {
                   setRegisterSuccessful(false)
                 } else {

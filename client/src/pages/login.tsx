@@ -80,24 +80,23 @@ const Login = () => {
             password: '',
           }}
           validationSchema={DisplayingLoginErrorMessagesSchema}
-          onSubmit={(values, { setSubmitting }) => {
-            const res = axios
-              .post('http://localhost:3001/api/v1/auth', {
-                username: values.username,
-                password: values.password,
-              })
-              .then(response => {
-                setAuthSuccessful(true)
-                setTimeout(() => router.push('/'), 1000)
-                // console.log(response.status)
-                // console.log(response.headers)
-                // console.log(response.statusText)
-                // console.log(response.data)
-              })
-              .catch(err => {
-                setAuthSuccessful(false)
-                console.log(err)
-              })
+          onSubmit={async (values, { setSubmitting }) => {
+            try {
+              await axios.post(
+                'http://localhost:3001/api/v1/auth',
+                {
+                  username: values.username,
+                  password: values.password,
+                },
+                { withCredentials: true }
+              )
+              setAuthSuccessful(true)
+              router.push('/')
+            } catch (err) {
+              setAuthSuccessful(false)
+
+              console.error(err)
+            }
             setSubmitting(false)
           }}
         >

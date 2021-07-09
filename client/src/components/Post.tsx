@@ -13,16 +13,25 @@ import React, { useState } from 'react'
 import { useEffect } from 'react'
 
 import { GoComment } from 'react-icons/go'
+import { useRouter } from 'next/router'
 
 import { IPost } from './interfaces'
-export const Post: React.FC<IPost> = ({
+export const Post: React.FC<
+  IPost & {
+    isAuth: boolean
+    handleVote: (post_id: number, vote_score: 1 | 0 | -1) => void
+  }
+> = ({
   id,
   title,
   content,
   upvotes: initialUpvotes,
   user_id,
+  username,
+  isAuth,
+  handleVote,
 }) => {
-  const [username, setUsername] = useState('')
+  // const [username, setUsername] = useState('')
   const { colorMode } = useColorMode()
   const borderColor = { light: 'gray.400', dark: 'gray.700' }
   const postPrimaryColor = { light: 'gray.50', dark: 'gray.800' }
@@ -37,11 +46,21 @@ export const Post: React.FC<IPost> = ({
     dark: 'black',
   }
 
-  const [vote, setVote] = useState(0)
+  const router = useRouter()
+
+  const [vote, setVote] = useState<0 | 1 | -1>(0)
   const [upvotes, setUpvotes] = useState(initialUpvotes)
+
   // on initial load check state from db
+  // const refreshData = () => {
+  //   router.replace(router.asPath)
+  // }
 
   const handleVoteChange = (voteFrom: string) => {
+    if (!isAuth) {
+      alert('You log in to vote')
+      return
+    }
     if (voteFrom === 'upvote') {
       if (vote === 1) {
         setVote(0)
@@ -55,25 +74,12 @@ export const Post: React.FC<IPost> = ({
         setVote(-1)
       }
     }
-    // setUpvotes(vote)
+    handleVote(id, vote)
   }
-
-  useEffect(() => {
-    console.log(user_id)
-    axios
-      .get('http://localhost:3001/api/v1/users/' + user_id.toString())
-      .then(response => {
-        console.log(response.data)
-        setUsername(response.data.username)
-      })
-      .catch(err => {
-        console.error(err)
-      })
-  }, [])
+  // const handleVoteChange = (x: any) => {}
 
   return (
     <Flex w='100%' direction='column' alignItems='center'>
-      <Spacer />
       <Flex
         w='100%'
         maxW='700px'
@@ -123,7 +129,7 @@ export const Post: React.FC<IPost> = ({
                 : unvoteColor[colorMode]
             }
           >
-            {vote}
+            {upvotes}
           </Text>
           <Button
             aria-label='downvote'
@@ -181,14 +187,23 @@ export const Post: React.FC<IPost> = ({
             {content}
           </Text>
           <Box mb='4px' color='gray.800'>
-            <Button lineHeight='32px' h='32px' variant='ghost' p='0 8px'>
+            <Button
+              lineHeight='32px'
+              h='32px'
+              variant='ghost'
+              p='0 8px'
+              onClick={() => {
+                console.log(id)
+                console.log(`/comments/${id.toString()}`)
+                router.push(`/comments/${id.toString()}`)
+              }}
+            >
               <Icon as={GoComment} m='10px 5px auto 0'></Icon>
               <Text fontSize='12px'>Comments</Text>
             </Button>
           </Box>
         </Box>
       </Flex>
-      <Spacer />
     </Flex>
   )
 }

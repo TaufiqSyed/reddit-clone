@@ -47,10 +47,10 @@ const Navbar: React.FC<{ username: string }> = ({ username }) => {
     >
       <Image
         position='relative'
-        src={`reddit-logo-with-text-on-${colorMode}.png`}
+        src={`reddit-logo-with-text-on-${colorMode}.svg`}
         alt='reddit logo'
-        h='30px'
-        m='0 20px'
+        h='60px'
+        m='0 15px'
         display='inline-block'
       />
       <Button

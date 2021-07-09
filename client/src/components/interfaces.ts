@@ -4,6 +4,7 @@ export interface IPost {
   content: string
   user_id: number
   upvotes: number | string
+  username?: string
 }
 
 export interface IComment {

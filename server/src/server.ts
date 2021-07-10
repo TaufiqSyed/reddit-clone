@@ -4,6 +4,7 @@ import apiRouter from './api'
 import express, { Request, Response, NextFunction } from 'express'
 import { Model } from 'objection'
 import session from 'express-session'
+import cors from 'cors'
 import connection from './config/db'
 import passport from 'passport'
 
@@ -11,6 +12,8 @@ const app = express()
 
 Model.knex(connection)
 
+app.use(cors({ credentials: true, origin: 'http://localhost:3000' }))
+// app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(

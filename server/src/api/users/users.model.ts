@@ -1,10 +1,8 @@
 import { Model } from 'objection'
 import tableNames from '../../constants/table-names'
-// import connection from '../../config/db'
 import Post from '../posts/posts.model'
 import Comment from '../comments/comments.model'
 
-// Model.knex(connection)
 export default class User extends Model {
   id!: number
   username!: string

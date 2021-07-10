@@ -45,12 +45,7 @@ export async function seed(knex: Knex): Promise<void> {
       user_id: 2,
       post_id: 1,
     },
-    {
-      content:
-        'Est dolor sint sint irure eiusmod veniam nisi esse et cupidatat.',
-      user_id: 4,
-      post_id: 7,
-    },
+
     {
       content:
         'Aliquip mollit aute reprehenderit qui. Nulla do amet minim culpa labore culpa duis do id eu ad.',
@@ -68,18 +63,6 @@ export async function seed(knex: Knex): Promise<void> {
         'Tempor enim eu ipsum ex ex aliquip ad nisi excepteur. Officia elit cupidatat aliqua aliquip nisi aute qui duis tempor veniam voluptate eiusmod.',
       user_id: 1,
       post_id: 4,
-    },
-    {
-      content:
-        'Occaecat laborum dolore dolor laboris labore duis quis excepteur et minim occaecat sunt.',
-      user_id: 4,
-      post_id: 7,
-    },
-    {
-      content:
-        'Officia incididunt consectetur aute sit elit id officia nisi. Commodo nulla est dolor irure eiusmod exercitation sit commodo nulla do labore adipisicing reprehenderit.',
-      user_id: 2,
-      post_id: 7,
     },
   ]
   await knex(tableNames.comment).insert(jsonData)

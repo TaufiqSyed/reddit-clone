@@ -16,6 +16,20 @@ router.get('/', (req, res) => {
   return
 })
 
+router.get('/pid/:pid', (req, res) => {
+  Comment.query()
+    .select('comments.*', 'user.username', 'post.title')
+    .leftJoinRelated('[post, user]')
+    .where('post.id', req.params.pid)
+    .then(comments => {
+      res.send(JSON.stringify(comments))
+    })
+    .catch(_err => {
+      res.status(500).send()
+    })
+  return
+})
+
 router.post('/', isAuth, (req, res) => {
   const content: string = req.body.content
 

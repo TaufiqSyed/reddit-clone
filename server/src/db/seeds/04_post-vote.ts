@@ -35,18 +35,8 @@ export async function seed(knex: Knex): Promise<void> {
       vote_score: 0,
     },
     {
-      user_id: 4,
-      post_id: 8,
-      vote_score: 1,
-    },
-    {
       user_id: 2,
       post_id: 1,
-      vote_score: 1,
-    },
-    {
-      user_id: 2,
-      post_id: 7,
       vote_score: 1,
     },
     {

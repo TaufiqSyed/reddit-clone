@@ -12,8 +12,10 @@ router.get('/', (req, res) => {
       tableNames.post + '.*',
       Post.relatedQuery('votes')
         .select(raw('coalesce(sum(??), 0)', 'vote_score'))
-        .as('upvotes')
+        .as('upvotes'),
+      'user.username'
     )
+    .leftJoinRelated('user')
     .then(posts => {
       res.send(posts)
     })
@@ -21,6 +23,34 @@ router.get('/', (req, res) => {
       res.status(400).send(err)
     })
   return
+})
+
+router.get('/:id', (req, res) => {
+  Post.query()
+    .select(
+      tableNames.post + '.*',
+      Post.relatedQuery('votes')
+        .select(raw('coalesce(sum(??), 0)', 'vote_score'))
+        .as('upvotes')
+    )
+    .where('id', req.params.id)
+    .first()
+    .then(posts => {
+      res.send(posts)
+    })
+    .catch(err => {
+      res.status(400).send(err)
+    })
+  return
+})
+
+router.get('/votes', async (req, res) => {
+  try {
+    const postVotes = await PostVote.query().select()
+    res.send(postVotes)
+  } catch (err) {
+    res.send(500).send()
+  }
 })
 
 router.post('/', isAuth, (req, res) => {
@@ -39,7 +69,7 @@ router.post('/', isAuth, (req, res) => {
   return
 })
 
-router.post('/vote', isAuth, async (req, res) => {
+router.post('/:id/vote', isAuth, async (req, res) => {
   let vote_score: number
   let post_id: number
   const user_id = req.user.id
@@ -51,10 +81,13 @@ router.post('/vote', isAuth, async (req, res) => {
   }
   try {
     vote_score = parseStringToInt(req.body.vote_score)
-    post_id = parseStringToInt(req.body.post_id)
+    post_id = parseStringToInt(req.params.id)
   } catch (err) {
-    return res.sendStatus(400)
+    return res.status(400).send()
   }
+
+  if (vote_score !== 1 && vote_score !== 0 && vote_score !== -1)
+    return res.status(400).send()
 
   const existsRow = await PostVote.query()
     .select(1)
@@ -75,6 +108,18 @@ router.post('/vote', isAuth, async (req, res) => {
     res.sendStatus(202)
   } catch (err) {
     res.sendStatus(400)
+  }
+})
+
+router.get('/:id/vote', isAuth, async (req, res) => {
+  try {
+    const data = await PostVote.query()
+      .where('post_id', req.params.id)
+      .where('user_id', req.user.id)
+      .first()
+    res.send(data)
+  } catch (err) {
+    res.status(400).send()
   }
 })
 

@@ -15,7 +15,8 @@ export const isAdmin = (req: Request, res: Response, next: NextFunction) => {
     next()
   } else {
     res.status(401).json({
-      message: 'You are not authorized to view this resource because you are not an admin.',
+      message:
+        'You are not authorized to view this resource because you are not an admin.',
     })
   }
 }

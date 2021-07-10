@@ -29,6 +29,7 @@ const theme = extendTheme({
       250: '#D3DBE5',
       1000: '#13131c',
     },
+    redditblue: '#5bbad5',
   },
   fonts,
   breakpoints,

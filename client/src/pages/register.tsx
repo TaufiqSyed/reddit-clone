@@ -14,10 +14,11 @@ import {
   Alert,
   AlertIcon,
   CloseButton,
+  Link,
+  Text,
 } from '@chakra-ui/react'
-import { DarkModeSwitch } from '../components/DarkModeSwitch'
 import { Formik, Form } from 'formik'
-
+import NextLink from 'next/link'
 import React, { useEffect, useState } from 'react'
 
 import { DisplayingRegisterErrorMessagesSchema } from '../validation'
@@ -113,7 +114,6 @@ const Register = () => {
               <Heading fontSize='25px' m='10px 0 40px 0'>
                 Sign up to Reddit
               </Heading>
-              <DarkModeSwitch />
               <Stack spacing='14px'>
                 <FormControl
                   isRequired
@@ -176,6 +176,14 @@ const Register = () => {
               >
                 SIGN UP
               </Button>
+              <Text fontSize='13px' m='20px 0 0 0'>
+                Already a user?{' '}
+                <NextLink href={'/login'} passHref>
+                  <Link fontWeight='bold' color='blue.500'>
+                    LOG IN
+                  </Link>
+                </NextLink>
+              </Text>
             </Form>
           )}
         </Formik>

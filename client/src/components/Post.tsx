@@ -1,13 +1,6 @@
 import { ChevronUpIcon, ChevronDownIcon } from '@chakra-ui/icons'
 import { Flex, Text } from '@chakra-ui/layout'
-import {
-  useColorMode,
-  Button,
-  useToken,
-  Box,
-  Spacer,
-  Icon,
-} from '@chakra-ui/react'
+import { useColorMode, Button, useToken, Box, Icon } from '@chakra-ui/react'
 import axios from 'axios'
 import React, { useState } from 'react'
 import { useEffect } from 'react'
@@ -18,21 +11,12 @@ import { useRouter } from 'next/router'
 import { IPost } from './interfaces'
 export const Post: React.FC<
   IPost & {
-    isAuth: boolean
-    handleVote: (post_id: number, vote_score: 1 | 0 | -1) => void
+    handleVote: (post_id: number, vote_score: number) => void
+    user: { id: number; username: string; admin: boolean } | null
   }
-> = ({
-  id,
-  title,
-  content,
-  upvotes: initialUpvotes,
-  user_id,
-  username,
-  isAuth,
-  handleVote,
-}) => {
-  // const [username, setUsername] = useState('')
+> = ({ id, title, content, upvotes, user_id, username, handleVote, user }) => {
   const { colorMode } = useColorMode()
+  const [isLoading, setIsLoading] = useState(true)
   const borderColor = { light: 'gray.400', dark: 'gray.700' }
   const postPrimaryColor = { light: 'gray.50', dark: 'gray.800' }
   const postSecondaryColor = { light: 'gray.75', dark: 'gray.900' }
@@ -48,36 +32,53 @@ export const Post: React.FC<
 
   const router = useRouter()
 
-  const [vote, setVote] = useState<0 | 1 | -1>(0)
-  const [upvotes, setUpvotes] = useState(initialUpvotes)
+  const [vote, setVote] = useState<number>(0)
+  const fetchVote = async () => {
+    try {
+      const updatedVote = (
+        await axios.get(`http://localhost:3001/api/v1/posts/${id}/vote`, {
+          withCredentials: true,
+        })
+      ).data.vote_score
+      setVote(updatedVote)
+      setIsLoading(false)
+    } catch (err) {
+      console.error(err)
+    }
+  }
+  useEffect(() => {
+    if (user) {
+      fetchVote()
+    } else {
+      setIsLoading(false)
+    }
+  }, [])
 
-  // on initial load check state from db
-  // const refreshData = () => {
-  //   router.replace(router.asPath)
-  // }
+  const updateAfterVote = (voteFrom: string) => {
+    if (!user) {
+      alert('You need to log in to vote')
 
-  const handleVoteChange = (voteFrom: string) => {
-    if (!isAuth) {
-      alert('You log in to vote')
       return
     }
+    let updatedVote
+
     if (voteFrom === 'upvote') {
       if (vote === 1) {
-        setVote(0)
+        updatedVote = 0
       } else {
-        setVote(1)
+        updatedVote = 1
       }
     } else if (voteFrom === 'downvote') {
       if (vote === -1) {
-        setVote(0)
+        updatedVote = 0
       } else {
-        setVote(-1)
+        updatedVote = -1
       }
     }
-    handleVote(id, vote)
+    setVote(updatedVote)
+    handleVote(id, updatedVote)
   }
-  // const handleVoteChange = (x: any) => {}
-
+  if (isLoading) return <p></p>
   return (
     <Flex w='100%' direction='column' alignItems='center'>
       <Flex
@@ -103,7 +104,7 @@ export const Post: React.FC<
             variant='ghost'
             size='50px'
             grow='1'
-            onClick={() => handleVoteChange('upvote')}
+            onClick={() => updateAfterVote('upvote')}
             padding='2px'
             color={vote === 1 ? 'upvote' : unvoteColor[colorMode]}
             fontSize='20px'
@@ -137,7 +138,7 @@ export const Post: React.FC<
             size='auto'
             grow='1'
             padding='2px'
-            onClick={() => handleVoteChange('downvote')}
+            onClick={() => updateAfterVote('downvote')}
             color={vote === -1 ? 'downvote' : unvoteColor[colorMode]}
             fontSize='20px'
             _hover={{
@@ -193,8 +194,6 @@ export const Post: React.FC<
               variant='ghost'
               p='0 8px'
               onClick={() => {
-                console.log(id)
-                console.log(`/comments/${id.toString()}`)
                 router.push(`/comments/${id.toString()}`)
               }}
             >

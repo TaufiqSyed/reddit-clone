@@ -1,81 +1,99 @@
 import { Flex, Spacer, Stack } from '@chakra-ui/layout'
 import { Box, useColorMode, useToken } from '@chakra-ui/react'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useContext } from 'react'
 
 import { Post } from '../components/Post'
 import Navbar from '../components/Navbar'
-import axios from 'axios'
-import { IPost } from '../components/interfaces'
+import axios, { AxiosTransformer } from 'axios'
+import { IPost, IUser } from '../components/interfaces'
 import { useRouter } from 'next/router'
+import CreatePost from '../components/CreatePost'
 
-const Index: React.FC<{ authSuccessful: boolean; posts: IPost[] }> = ({
-  authSuccessful: isAuth,
-  posts,
-}) => {
+const Index = () => {
+  const [isLoading, setIsLoading] = useState(true)
+  const [posts, setPosts] = useState<IPost[]>([])
+  const [user, setUser] = useState<IUser | null>(null)
   const { colorMode } = useColorMode()
   const [gray250, black] = useToken('colors', ['gray.250', 'black'])
   const bgColor = { light: gray250, dark: black }
   const router = useRouter()
-  const handleVote = async (post_id: number, vote_score: 0 | 1 | -1) => {
-    if (!isAuth) {
-      alert('You must sign in to vote')
-      return
-    }
+  const fetchPosts = async () => {
     try {
-      await axios.post(
-        `http://localhost:3001/api/v1/posts/${post_id}/vote`,
-        {
-          vote_score,
-        },
-        { withCredentials: true }
-      )
-      router.push(router.asPath)
+      const updatedPosts = (
+        await axios.get('http://localhost:3001/api/v1/posts', {
+          withCredentials: true,
+        })
+      ).data
+      console.log(updatedPosts)
+      setPosts(updatedPosts)
+      // setPosts(
+      // [...updatedPosts].sort((a, b) => (a.upvotes < b.upvotes ? 1 : -1))
+      // )
+      setIsLoading(false)
     } catch (err) {
       console.error(err)
     }
   }
   useEffect(() => {
+    fetchPosts()
+    axios
+      .get('http://localhost:3001/api/v1/auth/user', {
+        withCredentials: true,
+      })
+      .then(response => setUser(response.data.user))
+      .catch(err => console.error(err))
+    // setPosts([...posts].sort((a, b) => (a.upvotes < b.upvotes ? 1 : -1)))
+  }, [])
+
+  const logOut = async () => {
+    try {
+      await axios.delete('http://localhost:3001/api/v1/auth', {
+        withCredentials: true,
+      })
+      router.replace('/login')
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
+  const handleVote = (post_id: number, vote_score: number) => {
+    if (!user) {
+      alert('You must sign in to vote')
+      return
+    }
+    if (vote_score !== 0 && vote_score !== 1 && vote_score !== -1) return
+    axios({
+      method: 'post',
+      url: `http://localhost:3001/api/v1/posts/${post_id}/vote`,
+      data: {
+        vote_score,
+      },
+      withCredentials: true,
+    })
+      .then(_response => {
+        fetchPosts()
+      })
+      .catch(err => console.error(err))
+  }
+
+  useEffect(() => {
     document.body.style.backgroundColor = bgColor[colorMode]
   }, [colorMode])
+  if (isLoading) return <p></p>
   return (
     <Box height='100vh'>
-      <Navbar username='mynamejeff' />
-      <Box mt='80px'>{'auth: ' + isAuth.toString()}</Box>
+      <CreatePost />
+      <Navbar user={user} logOut={logOut} />
+      {/* <Box mt='80px'>{'auth: ' + JSON.stringify(user)}</Box> */}
       <Stack mt='80px' spacing='10px' w='100%'>
-        {posts.map((post, i) => (
-          <Post {...post} isAuth={isAuth} handleVote={handleVote} key={i} />
-        ))}
+        {posts
+          // .sort((a, b) => (a.upvotes < b.upvotes ? 1 : -1))
+          .map((post, i) => (
+            <Post {...post} handleVote={handleVote} key={post.id} user={user} />
+          ))}
       </Stack>
     </Box>
   )
-}
-
-export async function getServerSideProps(context: any) {
-  try {
-    const authSuccessful: boolean = (
-      await axios.get('http://localhost:3001/api/v1/auth', {
-        headers: context?.req?.headers?.cookie
-          ? { cookie: context.req.headers.cookie }
-          : undefined,
-        withCredentials: true,
-      })
-    ).data.authSuccessful
-    const posts = (await axios.get('http://localhost:3001/api/v1/posts')).data
-
-    const propsData: { authSuccessful: boolean; posts: IPost[] } = {
-      authSuccessful,
-      posts,
-    }
-    return {
-      props: propsData,
-    }
-  } catch (err) {
-    return {
-      props: {
-        serverError: true,
-      },
-    }
-  }
 }
 
 export default Index

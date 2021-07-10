@@ -14,3 +14,9 @@ export interface IComment {
   user_id: number
   username: string
 }
+
+export interface IUser {
+  id: number
+  username: string
+  admin: boolean
+}

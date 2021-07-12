@@ -82,16 +82,17 @@ const Index = () => {
   if (isLoading) return <p></p>
   return (
     <Box height='100vh'>
-      <CreatePost />
       <Navbar user={user} logOut={logOut} />
-      {/* <Box mt='80px'>{'auth: ' + JSON.stringify(user)}</Box> */}
-      <Stack mt='80px' spacing='10px' w='100%'>
+      <Box height='56px'></Box>
+      {user ? <CreatePost /> : null}
+      <Stack spacing='10px' w='100%' mt='20px'>
         {posts
           // .sort((a, b) => (a.upvotes < b.upvotes ? 1 : -1))
           .map((post, i) => (
             <Post {...post} handleVote={handleVote} key={post.id} user={user} />
           ))}
       </Stack>
+      <Box height='20px'></Box>
     </Box>
   )
 }

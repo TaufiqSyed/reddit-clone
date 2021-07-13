@@ -1,13 +1,13 @@
-import { Flex, Spacer, Stack } from '@chakra-ui/layout'
-import { Box, useColorMode, useToken } from '@chakra-ui/react'
-import { useEffect, useState, useContext } from 'react'
+import { Stack } from '@chakra-ui/layout'
+import { Box, Spinner, useColorMode, useToken } from '@chakra-ui/react'
+import { useEffect, useState } from 'react'
 
-import { Post } from '../components/Post'
+import Post from '../components/Post'
 import Navbar from '../components/Navbar'
-import axios, { AxiosTransformer } from 'axios'
+import axios from 'axios'
 import { IPost, IUser } from '../components/interfaces'
 import { useRouter } from 'next/router'
-import CreatePost from '../components/CreatePost'
+import CreatePostModal from '../components/CreatePostModal'
 
 const Index = () => {
   const [isLoading, setIsLoading] = useState(true)
@@ -24,25 +24,44 @@ const Index = () => {
           withCredentials: true,
         })
       ).data
-      console.log(updatedPosts)
-      setPosts(updatedPosts)
-      // setPosts(
-      // [...updatedPosts].sort((a, b) => (a.upvotes < b.upvotes ? 1 : -1))
-      // )
+      setPosts(
+        [...updatedPosts].sort((a, b) => (a.upvotes < b.upvotes ? 1 : -1))
+      )
       setIsLoading(false)
     } catch (err) {
       console.error(err)
     }
   }
+  const updateOnePost = async (post_id: number) => {
+    try {
+      const updatedPost = (
+        await axios.get(`http://localhost:3001/api/v1/posts/${post_id}`, {
+          withCredentials: true,
+        })
+      ).data
+      setPosts(posts.map(post => (post.id === post_id ? updatedPost : post)))
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
+  // useEffect(() => {
+
+  // }, [isLoading])
+
   useEffect(() => {
-    fetchPosts()
     axios
       .get('http://localhost:3001/api/v1/auth/user', {
         withCredentials: true,
       })
-      .then(response => setUser(response.data.user))
-      .catch(err => console.error(err))
-    // setPosts([...posts].sort((a, b) => (a.upvotes < b.upvotes ? 1 : -1)))
+      .then(response => {
+        setUser(response.data.user)
+        fetchPosts()
+      })
+      .catch(err => {
+        console.error(err)
+        fetchPosts()
+      })
   }, [])
 
   const logOut = async () => {
@@ -50,7 +69,7 @@ const Index = () => {
       await axios.delete('http://localhost:3001/api/v1/auth', {
         withCredentials: true,
       })
-      router.replace('/login')
+      router.reload()
     } catch (err) {
       console.error(err)
     }
@@ -71,7 +90,7 @@ const Index = () => {
       withCredentials: true,
     })
       .then(_response => {
-        fetchPosts()
+        updateOnePost(post_id)
       })
       .catch(err => console.error(err))
   }
@@ -79,20 +98,19 @@ const Index = () => {
   useEffect(() => {
     document.body.style.backgroundColor = bgColor[colorMode]
   }, [colorMode])
-  if (isLoading) return <p></p>
+  // if (isLoading) {
+
   return (
     <Box height='100vh'>
       <Navbar user={user} logOut={logOut} />
-      <Box height='56px'></Box>
-      {user ? <CreatePost /> : null}
-      <Stack spacing='10px' w='100%' mt='20px'>
-        {posts
-          // .sort((a, b) => (a.upvotes < b.upvotes ? 1 : -1))
-          .map((post, i) => (
-            <Post {...post} handleVote={handleVote} key={post.id} user={user} />
-          ))}
+      <Box height='66px' aria-hidden='true'></Box>
+      {user ? <CreatePostModal fetchPosts={fetchPosts} /> : null}
+      <Stack spacing='10px' w='100%'>
+        {posts.map((post, i) => (
+          <Post {...post} handleVote={handleVote} key={i} user={user} />
+        ))}
       </Stack>
-      <Box height='20px'></Box>
+      <Box height='20px' aria-hidden='true'></Box>
     </Box>
   )
 }

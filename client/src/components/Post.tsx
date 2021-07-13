@@ -9,7 +9,12 @@ import { GoComment } from 'react-icons/go'
 import { useRouter } from 'next/router'
 
 import { IPost } from './interfaces'
-export const Post: React.FC<
+import {
+  primaryBorderColor,
+  primaryComponentColor,
+  secondaryComponentColor,
+} from './colors'
+const Post: React.FC<
   IPost & {
     handleVote: (post_id: number, vote_score: number) => void
     user: { id: number; username: string; admin: boolean } | null
@@ -17,9 +22,6 @@ export const Post: React.FC<
 > = ({ id, title, content, upvotes, user_id, username, handleVote, user }) => {
   const { colorMode } = useColorMode()
   const [isLoading, setIsLoading] = useState(true)
-  const borderColor = { light: 'gray.400', dark: 'gray.700' }
-  const postPrimaryColor = { light: 'gray.50', dark: 'gray.800' }
-  const postSecondaryColor = { light: 'gray.75', dark: 'gray.900' }
   const [gray500] = useToken('colors', ['gray.500'])
   const unvoteColor = {
     light: 'gray.600',
@@ -42,6 +44,7 @@ export const Post: React.FC<
       ).data.vote_score
       setVote(updatedVote)
       setIsLoading(false)
+      // console.log(updatedVote)
     } catch (err) {
       console.error(err)
     }
@@ -78,7 +81,6 @@ export const Post: React.FC<
     setVote(updatedVote)
     handleVote(id, updatedVote)
   }
-  if (isLoading) return <p></p>
   return (
     <Flex w='100%' direction='column' alignItems='center'>
       <Flex
@@ -87,14 +89,14 @@ export const Post: React.FC<
         minW='482x'
         h='auto'
         border='1px solid'
-        borderColor={borderColor[colorMode]}
+        borderColor={primaryBorderColor[colorMode]}
         borderRadius='5px'
         flexDir='row'
         _hover={{ borderColor: gray500 }}
       >
         <Box
           position='relative'
-          bgColor={postSecondaryColor[colorMode]}
+          bgColor={secondaryComponentColor[colorMode]}
           p='5px 7px 0 7px'
           borderRadius='5px 0 0 5px'
         >
@@ -153,7 +155,7 @@ export const Post: React.FC<
         <Box
           pl='1em'
           pt='5px'
-          bgColor={postPrimaryColor[colorMode]}
+          bgColor={primaryComponentColor[colorMode]}
           borderRadius='0 5px 5px 0'
           w='100%'
         >
@@ -206,3 +208,5 @@ export const Post: React.FC<
     </Flex>
   )
 }
+
+export default React.memo(Post)

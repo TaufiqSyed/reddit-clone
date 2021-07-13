@@ -2,7 +2,7 @@ import axios from 'axios'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import Comment from '../../components/Comment'
-import { Post } from '../../components/Post'
+import Post from '../../components/Post'
 import { IComment, IPost } from '../../components/interfaces'
 
 const Details = ({ pid, post, comments }) => {

@@ -2,14 +2,15 @@ import { Model, QueryContext } from 'objection'
 import tableNames from '../../constants/table-names'
 import Post from '../posts/posts.model'
 import User from '../users/users.model'
+import VoteTarget from '../vote_targets/vote_targets.model'
 
-export default class PostVote extends Model {
+export default class Vote extends Model {
   id!: number
   user_id!: number
-  post_id!: number
+  vote_target_id!: number
   vote_score!: number
   static get tableName() {
-    return tableNames.postVote
+    return tableNames.vote
   }
 
   static get relationMappings() {
@@ -18,15 +19,15 @@ export default class PostVote extends Model {
         relation: Model.BelongsToOneRelation,
         modelClass: User,
         join: {
-          from: tableNames.postVote + '.user_id',
+          from: tableNames.vote + '.user_id',
           to: tableNames.user + '.id',
         },
       },
-      post: {
+      voteTarget: {
         relation: Model.BelongsToOneRelation,
-        modelClass: Post,
+        modelClass: VoteTarget,
         join: {
-          from: tableNames.postVote + '.post_id',
+          from: tableNames.vote + '.vote_target_id',
           to: tableNames.user + '.id',
         },
       },
@@ -35,12 +36,12 @@ export default class PostVote extends Model {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['post_id', 'user_id', 'vote_score'],
+      required: ['vote_target_id', 'user_id', 'vote_score'],
 
       properties: {
         id: { type: 'integer' },
         user_id: { type: 'integer' },
-        post_id: { type: 'integer' },
+        vote_target_id: { type: 'integer' },
         vote_score: { type: 'integer' },
       },
     }

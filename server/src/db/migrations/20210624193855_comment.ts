@@ -3,7 +3,10 @@ import tableNames from '../../constants/table-names'
 
 export async function up(knex: Knex): Promise<void> {
   return knex.schema.createTable(tableNames.comment, table => {
-    table.increments('id').primary()
+    table
+      .integer('id')
+      .primary()
+      .references(tableNames.voteTarget + '.id')
     table.string('content').notNullable()
     table
       .integer('user_id')

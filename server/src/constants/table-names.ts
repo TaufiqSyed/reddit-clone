@@ -3,5 +3,6 @@ export default {
   refreshToken: 'refresh_tokens',
   post: 'posts',
   comment: 'comments',
-  postVote: 'post_votes',
+  vote: 'votes',
+  voteTarget: 'vote_targets',
 }

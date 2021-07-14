@@ -2,7 +2,8 @@ import { Model } from 'objection'
 import tableNames from '../../constants/table-names'
 import User from '../users/users.model'
 import Comment from '../comments/comments.model'
-import PostVote from '../votes/post-votes.model'
+import Vote from '../votes/votes.model'
+import VoteTarget from '../vote_targets/vote_targets.model'
 
 export default class Post extends Model {
   id!: number
@@ -15,6 +16,14 @@ export default class Post extends Model {
   }
   static get relationMappings() {
     return {
+      voteTarget: {
+        relation: Model.BelongsToOneRelation,
+        modelClass: VoteTarget,
+        join: {
+          from: tableNames.post + '.id',
+          to: tableNames.voteTarget + '.id',
+        },
+      },
       user: {
         relation: Model.BelongsToOneRelation,
         modelClass: User,
@@ -31,20 +40,12 @@ export default class Post extends Model {
           to: tableNames.comment + '.post_id',
         },
       },
-      votes: {
-        relation: Model.HasManyRelation,
-        modelClass: PostVote,
-        join: {
-          from: tableNames.post + '.id',
-          to: tableNames.postVote + '.post_id',
-        },
-      },
     }
   }
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['title', 'content', 'user_id'],
+      required: ['id', 'title', 'content', 'user_id'],
 
       properties: {
         id: { type: 'integer' },

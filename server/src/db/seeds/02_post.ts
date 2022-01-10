@@ -5,22 +5,23 @@ export async function seed(knex: Knex): Promise<void> {
   await knex(tableNames.post).del()
   const jsonData = [
     {
-      title: 'Alaska',
-      content: 'Equicom',
+      title: 'Lorem ipsum dolor sit amet',
+      content:
+        'consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
       user_id: 1,
     },
     {
-      title: 'New Hampshire',
-      content: 'Daisu',
+      title: 'Excepteur sint occaecat cupidatat non proident',
+      content: 'unde omnis iste natus error sit voluptatem',
       user_id: 2,
     },
     {
-      title: 'Wisconsin',
+      title: 'Duis aute irure dolor',
       content: 'Applidec',
       user_id: 4,
     },
     {
-      title: 'Illinois',
+      title: 'Ut enim ad minima veniam, quis nostrum',
       content: 'Visalia',
       user_id: 3,
     },

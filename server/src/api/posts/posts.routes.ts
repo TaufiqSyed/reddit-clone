@@ -7,21 +7,36 @@ import Post from './posts.model'
 
 const router = Router()
 router.get('/', (req, res) => {
+  // Post.query()
+  //   .select(
+  //     tableNames.post + '.*',
+  //     Post.relatedQuery('votes')
+  //       .select(raw('coalesce(sum(??), 0)', 'vote_score'))
+  //       .as('upvotes'),
+  //     'user.username'
+  //   )
+  //   .leftJoinRelated('user')
+  //   .then(posts => {
+  //     res.send(posts)
+  //   })
+  //   .catch(err => {
+  //     res.status(400).send(err)
+  //   })
   Post.query()
-    .select(
-      tableNames.post + '.*',
-      Post.relatedQuery('votes')
-        .select(raw('coalesce(sum(??), 0)', 'vote_score'))
-        .as('upvotes'),
-      'user.username'
-    )
-    .leftJoinRelated('user')
-    .then(posts => {
-      res.send(posts)
-    })
-    .catch(err => {
-      res.status(400).send(err)
-    })
+  .select(
+    tableNames.post + '.*',
+    Post.relatedQuery('votes')
+      .select(raw('coalesce(sum(??), 0)', 'vote_score'))
+      .as('upvotes'),
+    'user.username'
+  )
+  .leftJoinRelated('user')
+  .then(posts => {
+    res.send(posts)
+  })
+  .catch(err => {
+    res.status(400).send(err)
+  })
   return
 })
 
@@ -53,7 +68,7 @@ router.get('/votes', async (req, res) => {
   }
 })
 
-router.post('/', isAuth, (req, res) => {
+router.post('/', isAuth, (req: any, res) => {
   const title: string = req.body.title
   const content: string = req.body.content
   const user_id = req.user.id
@@ -69,7 +84,7 @@ router.post('/', isAuth, (req, res) => {
   return
 })
 
-router.post('/:id/vote', isAuth, async (req, res) => {
+router.post('/:id/vote', isAuth, async (req: any, res) => {
   let vote_score: number
   let post_id: number
   const user_id = req.user.id
@@ -111,11 +126,11 @@ router.post('/:id/vote', isAuth, async (req, res) => {
   }
 })
 
-router.get('/:id/vote', isAuth, async (req, res) => {
+router.get('/:id/vote', isAuth, async (req: any, res) => {
   try {
     const data = await PostVote.query()
       .where('post_id', req.params.id)
-      .where('user_id', req.user.id)
+      .where('user_id', req.user!.id)
       .first()
     res.send(data)
   } catch (err) {

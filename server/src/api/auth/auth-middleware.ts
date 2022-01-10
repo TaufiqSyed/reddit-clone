@@ -10,7 +10,8 @@ export const isAuth = (req: Request, res: Response, next: NextFunction) => {
   }
 }
 
-export const isAdmin = (req: Request, res: Response, next: NextFunction) => {
+export const isAdmin = (req: any, res: Response, next: NextFunction) => {
+  console.log(req.user)
   if (req.isAuthenticated() && req.user.admin) {
     next()
   } else {

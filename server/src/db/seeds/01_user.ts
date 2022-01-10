@@ -6,23 +6,23 @@ export async function seed(knex: Knex): Promise<void> {
   const jsonData = [
     {
       username: 'Kelli_House',
-      password: 'Colombia',
+      password: 'Colombia123!',
     },
     {
       username: 'Benton_Carson',
-      password: 'Bulgaria',
+      password: 'Bulgaria123!',
     },
     {
       username: 'Coleman_Jacobs',
-      password: 'Philippines',
+      password: 'Philippines123!',
     },
     {
       username: 'Alejandra_Baldwin',
-      password: 'Yemen',
+      password: 'Yemen123!',
     },
     {
       username: 'Petty_Shepherd',
-      password: 'Kenya',
+      password: 'Kenya123!',
     },
   ]
   await knex(tableNames.user).insert(jsonData)

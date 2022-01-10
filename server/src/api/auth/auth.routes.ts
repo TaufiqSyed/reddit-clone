@@ -7,6 +7,7 @@ const router = Router()
 // login    =>  POST /api/auth
 // logout   =>  DELETE /api/auth
 // isAuth   =>  GET /api/auth
+//h
 
 router.post('/', function (req, res, next) {
   passport.authenticate('local', function (err, user, info) {
@@ -38,7 +39,7 @@ router.get('/', (req: Request, res: Response, next: NextFunction) => {
   }
 })
 
-router.get('/user', (req: Request, res: Response, next: NextFunction) => {
+router.get('/user', (req: any, res: Response, next: NextFunction) => {
   if (req.isAuthenticated()) {
     return res.send({
       user: {

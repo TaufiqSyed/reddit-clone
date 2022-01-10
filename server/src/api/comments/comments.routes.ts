@@ -30,7 +30,7 @@ router.get('/pid/:pid', (req, res) => {
   return
 })
 
-router.post('/', isAuth, (req, res) => {
+router.post('/', isAuth, (req: any, res) => {
   const content: string = req.body.content
 
   const user_id = req.user.id

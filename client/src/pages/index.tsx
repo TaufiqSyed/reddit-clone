@@ -57,6 +57,7 @@ const Index = () => {
       .then(response => {
         setUser(response.data.user)
         fetchPosts()
+        console.log(posts)
       })
       .catch(err => {
         console.error(err)

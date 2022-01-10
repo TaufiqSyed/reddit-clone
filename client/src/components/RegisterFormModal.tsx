@@ -126,7 +126,7 @@ export const RegisterFormModal = () => {
               onSubmit={async (values, { setSubmitting }) => {
                 try {
                   await axios.post(
-                    'http://localhost:3001/api/v1/auth',
+                    'http://localhost:3001/api/v1/users',
                     {
                       username: values.username,
                       password: values.password,

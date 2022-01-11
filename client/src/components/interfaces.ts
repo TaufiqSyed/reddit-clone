@@ -26,6 +26,10 @@ export interface ICreatePost {
   content: string
 }
 
+export interface ICreateComment {
+  content: string
+}
+
 export interface ILogin {
   username: string
   password: string

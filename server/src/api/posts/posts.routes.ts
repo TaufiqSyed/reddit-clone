@@ -7,48 +7,52 @@ import Post from './posts.model'
 
 const router = Router()
 router.get('/', (req, res) => {
+  Post.query()
+    .select(
+      tableNames.post + '.*',
+      Post.relatedQuery('votes')
+        .select(raw('coalesce(sum(??), 0)', 'vote_score'))
+        .as('upvotes'),
+      'user.username'
+    )
+    .leftJoinRelated('user')
+    .then(posts => {
+      res.send(posts)
+    })
+    .catch(err => {
+      res.status(400).send(err)
+    })
+  return
+})
+
+router.get('/:id', (req, res) => {
   // Post.query()
   //   .select(
   //     tableNames.post + '.*',
   //     Post.relatedQuery('votes')
   //       .select(raw('coalesce(sum(??), 0)', 'vote_score'))
-  //       .as('upvotes'),
-  //     'user.username'
+  //       .as('upvotes')
   //   )
-  //   .leftJoinRelated('user')
+  //   .where('id', req.params.id)
+  //   .first()
   //   .then(posts => {
   //     res.send(posts)
   //   })
   //   .catch(err => {
   //     res.status(400).send(err)
   //   })
-  Post.query()
-  .select(
-    tableNames.post + '.*',
-    Post.relatedQuery('votes')
-      .select(raw('coalesce(sum(??), 0)', 'vote_score'))
-      .as('upvotes'),
-    'user.username'
-  )
-  .leftJoinRelated('user')
-  .then(posts => {
-    res.send(posts)
-  })
-  .catch(err => {
-    res.status(400).send(err)
-  })
-  return
-})
+  // return
 
-router.get('/:id', (req, res) => {
   Post.query()
     .select(
       tableNames.post + '.*',
       Post.relatedQuery('votes')
         .select(raw('coalesce(sum(??), 0)', 'vote_score'))
-        .as('upvotes')
+        .as('upvotes'),
+      'user.username'
     )
-    .where('id', req.params.id)
+    .where(tableNames.post + '.id', req.params.id)
+    .leftJoinRelated('user')
     .first()
     .then(posts => {
       res.send(posts)

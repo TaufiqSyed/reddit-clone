@@ -75,11 +75,9 @@ Back-end
   SECRET=randomtext
   ```
 - You can alter any of the parameters. For the secret you can use a random text generator.
-- Use your editor's native command line and run the commands
+- Use your editor's native command line and run the command:
 
   `npm install`
-
-  `npm run dev`
   
 - Now open psql (the postgresql terminal) and run the command:
 
@@ -88,6 +86,12 @@ Back-end
 - Then run the following command in the integrated terminal in your server folder in your editor  
 
   `npx knex migrate:latest`
+  
+- Optionally, you can run `npx knex seed:run` to populate the database with some dummy data
  
+- Lastly run the following command in the integrated terminal in your server folder in your editor:
+
+  `npm install`
+
 - Everything is set up now - open the application from `http://localhost:3000/`
-- Optionally, you can run `npx knex seed:run` to populate the database with some dummy data to see the overall design when there are posts and comments.
+ to see the overall design when there are posts and comments.

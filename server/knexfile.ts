@@ -4,7 +4,7 @@ module.exports = {
     connection: {
       host: 'localhost',
       port: '5432',
-      database: 'objection-trial',
+      database: 'reddit_clone',
 
       user: 'postgres',
       password: 'postgres',

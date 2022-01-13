@@ -10,7 +10,7 @@ const Comment: React.FC<{ id: number; content: string; username: string }> = ({
 
   return (
     <Box
-      p='8px 15px 8px 30px'
+      p='12px 15px 12px 30px'
       bgColor={primaryComponentColor[colorMode]}
       borderRadius='5px'
     >
@@ -21,6 +21,7 @@ const Comment: React.FC<{ id: number; content: string; username: string }> = ({
         position='relative'
         fontSize='10px'
         color='gray.500'
+        mb='5px'
       >
         {username}
       </Text>

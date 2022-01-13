@@ -1,6 +1,6 @@
 import { Box, Text, useColorMode } from '@chakra-ui/react'
 import React from 'react'
-import { primaryComponentColor } from './colors'
+import { primaryComponentColor } from '../constants/colors'
 const Comment: React.FC<{ id: number; content: string; username: string }> = ({
   id,
   content,

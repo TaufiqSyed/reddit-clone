@@ -36,8 +36,8 @@ Back-end
 - Express
 - Passport JS
 - PostgreSQL
-- Objection JS (built on Knex JS) - Object-Relational Mapping
-- Bcrypt - for encrypting / decrypting
+- Objection JS (built on Knex JS) - ORM
+- Bcrypt
 
 ## Project Images
 
@@ -48,6 +48,9 @@ Back-end
 ![reddit-clone 5](https://user-images.githubusercontent.com/61982529/149331857-dde0ea65-93a1-4916-bc1e-a78afc41a664.png)
 ![reddit-clone 5 5](https://user-images.githubusercontent.com/61982529/149331863-a4d0d19f-5b06-42d0-9126-5db8988b4bfa.png)
 ![reddit-clone 6](https://user-images.githubusercontent.com/61982529/149331881-8aef0333-ef31-428c-bc9d-c805823c0250.png)
+
+API Routes via Postman
+![reddit-clone api](https://user-images.githubusercontent.com/61982529/149340184-a730653f-7ed1-4ad7-9d3a-0f07a621851f.png)
 
 
 ## Instructions on running the app

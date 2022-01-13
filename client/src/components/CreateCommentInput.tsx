@@ -24,12 +24,13 @@ import {
   secondaryComponentColor,
   textColor,
 } from './colors'
-import { ICreateComment } from './interfaces'
+import { ICreateComment, IUser } from './interfaces'
 
 export const CreateCommentInput: React.FC<{
-  user_id: number
+  authUser: IUser
   post_id: string
-}> = ({ user_id, post_id }) => {
+  fetchComments: (pid: string) => void
+}> = ({ authUser, post_id, fetchComments }) => {
   const [gray500] = useToken('colors', ['gray.500'])
   const router = useRouter()
 
@@ -51,22 +52,34 @@ export const CreateCommentInput: React.FC<{
         _hover={{ borderColor: gray500 }}
         p='0 10px 0 10px'
       >
+        <Text
+          display='block'
+          w='100%'
+          h='auto'
+          position='relative'
+          m='5px 5px'
+          fontSize='13px'
+        >
+          Comment as u/{authUser.username}
+        </Text>
         <Formik
           children={CreateCommentForm}
           initialValues={{
             content: '',
           }}
-          onSubmit={async values => {
+          onSubmit={async (values, { resetForm }) => {
             try {
               await axios.post(
                 'http://localhost:3001/api/v1/comments',
                 {
                   content: values.content,
-                  user_id: user_id,
+                  user_id: authUser.id,
                   post_id: post_id,
                 },
                 { withCredentials: true }
               )
+              fetchComments(post_id)
+              resetForm()
             } catch (err) {
               console.error(err)
             }
@@ -81,16 +94,6 @@ const CreateCommentForm = ({ values, handleChange, handleSubmit }) => {
   const { colorMode } = useColorMode()
   return (
     <Form onSubmit={handleSubmit}>
-      <Text
-        display='block'
-        w='100%'
-        h='auto'
-        position='relative'
-        m='5px 5px'
-        fontSize='13px'
-      >
-        Comment as u/undefined
-      </Text>
       <Textarea
         p='5px 10px'
         w='100%'

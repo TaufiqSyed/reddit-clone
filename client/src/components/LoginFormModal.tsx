@@ -112,16 +112,22 @@ const LoginFormModal = () => {
               validationSchema={DisplayingLoginErrorMessagesSchema}
               onSubmit={async values => {
                 try {
-                  await axios.post(
-                    'http://localhost:3001/api/v1/auth',
-                    {
-                      username: values.username,
-                      password: values.password,
-                    },
-                    { withCredentials: true }
-                  )
-                  onClose()
-                  router.reload()
+                  const value = (
+                    await axios.post(
+                      'http://localhost:3001/api/v1/auth',
+                      {
+                        username: values.username,
+                        password: values.password,
+                      },
+                      { withCredentials: true }
+                    )
+                  ).data
+                  if (value.authSuccessful) {
+                    onClose()
+                    router.reload()
+                  } else {
+                    alert('Invalid username or password')
+                  }
                 } catch (err) {
                   console.error(err)
                 }

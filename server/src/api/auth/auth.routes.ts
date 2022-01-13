@@ -15,7 +15,7 @@ router.post('/', function (req, res, next) {
       return next(err)
     }
     if (!user) {
-      return res.status(400).send({ authSuccessful: false })
+      return res.status(200).send({ authSuccessful: false })
     }
     req.logIn(user, function (err) {
       if (err) {

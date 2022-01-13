@@ -47,7 +47,7 @@ Back-end
 ![reddit-clone 4](https://user-images.githubusercontent.com/61982529/149331844-432a058a-f8e2-45b0-82ce-a4b9c3a78fac.png)
 ![reddit-clone 5](https://user-images.githubusercontent.com/61982529/149331857-dde0ea65-93a1-4916-bc1e-a78afc41a664.png)
 ![reddit-clone 5 5](https://user-images.githubusercontent.com/61982529/149331863-a4d0d19f-5b06-42d0-9126-5db8988b4bfa.png)
-![reddit-clone 6](https://user-images.githubusercontent.com/61982529/149331881-8aef0333-ef31-428c-bc9d-c805823c0250.png)
+![reddit-clone 6](https://user-images.githubusercontent.com/61982529/149384717-20577960-687d-49b7-85d8-a16388ea488d.png)
 
 API Routes via Postman
 

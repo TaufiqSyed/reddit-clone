@@ -13,6 +13,8 @@ A reddit clone I created as a demo full-stack project.
 - Upvote system available for posts
   - Posts sorted by vote value
 - Users can leave comments on posts
+- Responsive
+- All data persistent through database and RESTful API
 - Dark mode
 
 ## Technologies used
@@ -24,6 +26,7 @@ Front-end
 - Next JS
 - Chakra UI
 - Axios
+- Formik
 - Joi
 
 Back-end
@@ -61,7 +64,7 @@ Back-end
   `npm run dev`
 
 - This should set up the client-side at `http://localhost:3000/`
-- Install PostgreSQL
+- Install PostgreSQL https://www.postgresql.org/download/
 - Next open the server folder in your editor
 - Create a .env file in the server folder (no file name just .env) and enter the information below.
   ```
@@ -78,7 +81,7 @@ Back-end
 
   `npm run dev`
   
-- Now open psql (the postgresql cli) and run the command
+- Now open psql (the postgresql terminal) and run the command:
 
   `create database reddit_clone;`
   

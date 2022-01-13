@@ -49,7 +49,7 @@ const Post: React.FC<
     }
   }
   useEffect(() => {
-    if (user) {
+    if (user !== null) {
       fetchVote()
     } else {
       setIsLoading(false)

@@ -104,18 +104,28 @@ const Details = ({
   return (
     <>
       <Button
-        mt='56px'
-        w='100%'
-        h='100%'
-        bgColor='rgba(0,0,0,0)'
         position='absolute'
+        h='max(100vh,100%)'
+        w='100%'
+        bgColor='rgba(0,0,0,0)'
         zIndex='1'
         _hover={{}}
         _active={{}}
+        _focus={{}}
         cursor='default'
         onClick={() => router.replace('/')}
       ></Button>
       <Navbar user={authUser} logOut={logOut} />
+      <Flex w='100%' justifyContent='center'>
+        <Box
+          w='700px'
+          h='max(100vh,100%)'
+          position='absolute'
+          zIndex='2'
+          m='0 auto'
+        ></Box>
+      </Flex>
+
       <Flex w='100%' h='100%' p='56px 0 30px 0' zIndex='0'>
         <Spacer />
         <Box

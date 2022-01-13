@@ -10,7 +10,7 @@ const Comment: React.FC<{ id: number; content: string; username: string }> = ({
 
   return (
     <Box
-      p='12px 15px 12px 30px'
+      p='12px 15px 18px 30px'
       bgColor={primaryComponentColor[colorMode]}
       borderRadius='5px'
     >

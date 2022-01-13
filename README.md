@@ -95,7 +95,7 @@ API Routes via Postman
  
 - Lastly run the following command in the integrated terminal in your server folder in your editor:
 
-  `npm install`
+  `npm run dev`
 
 - Everything is set up now - open the application from `http://localhost:3000/`
  to see the overall design when there are posts and comments.

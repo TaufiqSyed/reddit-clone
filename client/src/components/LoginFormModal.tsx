@@ -19,8 +19,8 @@ import { Form, Formik, FormikProps } from 'formik'
 import router from 'next/router'
 import React, { useRef } from 'react'
 import { DisplayingLoginErrorMessagesSchema } from '../validation'
-import { inputColor, primaryComponentColor } from './colors'
-import { ILogin } from './interfaces'
+import { inputColor, primaryComponentColor } from '../constants/colors'
+import { ILogin } from '../constants/interfaces'
 
 const LoginForm = ({
   values,

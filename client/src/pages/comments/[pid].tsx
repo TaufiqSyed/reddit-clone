@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import Comment from '../../components/Comment'
 import Post from '../../components/Post'
-import { IComment, IPost } from '../../components/interfaces'
+import { IComment, IPost } from '../../constants/interfaces'
 
 import {
   Box,
@@ -17,7 +17,7 @@ import {
   bgColor,
   primaryBorderColor,
   secondaryComponentColor,
-} from '../../components/colors'
+} from '../../constants/colors'
 import { CreateCommentInput } from '../../components/CreateCommentInput'
 import Navbar from '../../components/Navbar'
 

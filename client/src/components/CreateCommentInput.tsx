@@ -10,8 +10,8 @@ import {
 import axios from 'axios'
 import { Formik, Form } from 'formik'
 import { useRouter } from 'next/router'
-import { primaryBorderColor, primaryComponentColor } from './colors'
-import { IUser } from './interfaces'
+import { primaryBorderColor, primaryComponentColor } from '../constants/colors'
+import { IUser } from '../constants/interfaces'
 
 export const CreateCommentInput: React.FC<{
   authUser: IUser

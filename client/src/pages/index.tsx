@@ -5,10 +5,10 @@ import { useEffect, useState } from 'react'
 import Post from '../components/Post'
 import Navbar from '../components/Navbar'
 import axios from 'axios'
-import { IPost, IUser } from '../components/interfaces'
+import { IPost, IUser } from '../constants/interfaces'
 import { useRouter } from 'next/router'
 import CreatePostModal from '../components/CreatePostModal'
-import { bgColor } from '../components/colors'
+import { bgColor } from '../constants/colors'
 
 const Index = () => {
   const [isLoading, setIsLoading] = useState(true)

@@ -21,8 +21,12 @@ import axios from 'axios'
 import { Formik, Form, FormikProps } from 'formik'
 import React, { useRef } from 'react'
 import { IoPersonCircle } from 'react-icons/io5'
-import { inputColor, primaryBorderColor, primaryComponentColor } from './colors'
-import { ICreatePost } from './interfaces'
+import {
+  inputColor,
+  primaryBorderColor,
+  primaryComponentColor,
+} from '../constants/colors'
+import { ICreatePost } from '../constants/interfaces'
 
 const CreatePostForm = ({
   values,

@@ -20,8 +20,8 @@ import { Form, Formik, FormikProps } from 'formik'
 import router from 'next/router'
 import React, { useRef } from 'react'
 import { DisplayingRegisterErrorMessagesSchema } from '../validation'
-import { IRegister } from './interfaces'
-import { primaryComponentColor } from './colors'
+import { IRegister } from '../constants/interfaces'
+import { primaryComponentColor } from '../constants/colors'
 
 const RegisterForm = ({
   values,

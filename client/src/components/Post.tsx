@@ -8,12 +8,12 @@ import { useEffect } from 'react'
 import { GoComment } from 'react-icons/go'
 import { useRouter } from 'next/router'
 
-import { IPost } from './interfaces'
+import { IPost } from '../constants/interfaces'
 import {
   primaryBorderColor,
   primaryComponentColor,
   secondaryComponentColor,
-} from './colors'
+} from '../constants/colors'
 const Post: React.FC<
   IPost & {
     handleVote: (post_id: number, vote_score: number) => void

@@ -18,7 +18,6 @@ const theme = extendTheme({
       500: '#E53E3E',
     },
     rose: {
-      // 200: '#ED5B82',
       200: '#F33A6A',
       500: '#F33A6A',
     },

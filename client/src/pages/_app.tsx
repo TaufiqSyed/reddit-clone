@@ -1,7 +1,6 @@
 import { ChakraProvider } from '@chakra-ui/react'
 import theme from '../theme'
 import { AppProps } from 'next/app'
-import { useState } from 'react'
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (

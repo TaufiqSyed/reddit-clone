@@ -1,5 +1,5 @@
 import { Stack } from '@chakra-ui/layout'
-import { Box, Spinner, useColorMode, useToken } from '@chakra-ui/react'
+import { Box, useColorMode } from '@chakra-ui/react'
 import { useEffect, useState } from 'react'
 
 import Post from '../components/Post'
@@ -8,14 +8,13 @@ import axios from 'axios'
 import { IPost, IUser } from '../components/interfaces'
 import { useRouter } from 'next/router'
 import CreatePostModal from '../components/CreatePostModal'
+import { bgColor } from '../components/colors'
 
 const Index = () => {
   const [isLoading, setIsLoading] = useState(true)
   const [posts, setPosts] = useState<IPost[]>([])
   const [user, setUser] = useState<IUser | null>(null)
   const { colorMode } = useColorMode()
-  const [gray250, black] = useToken('colors', ['gray.250', 'black'])
-  const bgColor = { light: gray250, dark: black }
   const router = useRouter()
   const fetchPosts = async () => {
     try {
@@ -44,10 +43,6 @@ const Index = () => {
       console.error(err)
     }
   }
-
-  // useEffect(() => {
-
-  // }, [isLoading])
 
   useEffect(() => {
     axios
@@ -98,8 +93,8 @@ const Index = () => {
 
   useEffect(() => {
     document.body.style.backgroundColor = bgColor[colorMode]
+    console.log(bgColor[colorMode])
   }, [colorMode])
-  // if (isLoading) {
 
   return (
     <Box height='100vh'>

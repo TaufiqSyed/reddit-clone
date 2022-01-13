@@ -3,14 +3,23 @@ import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import Comment from '../../components/Comment'
 import Post from '../../components/Post'
-import { IComment, IPost, IUser } from '../../components/interfaces'
-import { Box, Flex, Spacer, useColorMode } from '@chakra-ui/react'
+import { IComment, IPost } from '../../components/interfaces'
+
 import {
+  Box,
+  Button,
+  Divider,
+  Flex,
+  Spacer,
+  useColorMode,
+} from '@chakra-ui/react'
+import {
+  bgColor,
   primaryBorderColor,
-  primaryComponentColor,
   secondaryComponentColor,
 } from '../../components/colors'
 import { CreateCommentInput } from '../../components/CreateCommentInput'
+import Navbar from '../../components/Navbar'
 
 const Details = ({
   pid,
@@ -22,11 +31,11 @@ const Details = ({
   initialComments: IComment[]
 }) => {
   const router = useRouter()
-  const queryKey = 'pid'
   const { colorMode } = useColorMode()
   const [authUser, setAuthUser] = useState(undefined)
   const [post, setPost] = useState(initialPost)
   const [comments, setComments] = useState(initialComments)
+
   const fetchComments = async (pid: string) => {
     try {
       const updatedComments = (
@@ -70,7 +79,16 @@ const Details = ({
       })
       .catch(err => console.error(err))
   }
-
+  const logOut = async () => {
+    try {
+      await axios.delete('http://localhost:3001/api/v1/auth', {
+        withCredentials: true,
+      })
+      router.reload()
+    } catch (err) {
+      console.error(err)
+    }
+  }
   axios
     .get(`http://localhost:3001/api/v1/auth/user`, {
       withCredentials: true,
@@ -79,36 +97,67 @@ const Details = ({
       setAuthUser(value.data.user)
     })
 
+  useEffect(() => {
+    document.body.style.backgroundColor = bgColor[colorMode]
+  }, [colorMode])
+
   return (
-    <Flex w='100%' h='100%' p='50px 0'>
-      <Spacer />
-
-      <Box
-        bgColor={secondaryComponentColor[colorMode]}
-        w='700px'
-        h='auto'
-        p='0 0 20px 0'
-      >
-        <Post {...post} handleVote={handleVote} user={authUser} />
-        {authUser != null && (
-          <CreateCommentInput
-            authUser={authUser}
-            post_id={pid}
-            fetchComments={fetchComments}
-          />
-        )}
-
-        {comments.map(comment => (
-          <Comment
-            key={comment.id}
-            content={comment.content}
-            username={comment.username}
-            id={comment.id}
-          />
-        ))}
-      </Box>
-      <Spacer />
-    </Flex>
+    <>
+      <Button
+        mt='56px'
+        w='100%'
+        h='100%'
+        bgColor='rgba(0,0,0,0)'
+        position='absolute'
+        zIndex='1'
+        _hover={{}}
+        _active={{}}
+        cursor='default'
+        onClick={() => router.replace('/')}
+      ></Button>
+      <Navbar user={authUser} logOut={logOut} />
+      <Flex w='100%' h='100%' p='56px 0 30px 0' zIndex='0'>
+        <Spacer />
+        <Box
+          bgColor={secondaryComponentColor[colorMode]}
+          mt='10px'
+          w='700px'
+          h='auto'
+          p='0'
+          borderRadius='5px'
+          zIndex='2'
+        >
+          <Post {...post} handleVote={handleVote} user={authUser} />
+          {authUser != null && (
+            <CreateCommentInput
+              authUser={authUser}
+              post_id={pid}
+              fetchComments={fetchComments}
+            />
+          )}
+          <Box
+            border='1px solid'
+            borderColor={primaryBorderColor[colorMode]}
+            borderRadius='5px'
+            _hover={{ borderColor: 'gray.500' }}
+            mt='-0.5px'
+          >
+            {comments.map(comment => (
+              <Box key={comment.id}>
+                <Comment
+                  key={comment.id}
+                  content={comment.content}
+                  username={comment.username}
+                  id={comment.id}
+                />
+                <Divider />
+              </Box>
+            ))}
+          </Box>
+        </Box>
+        <Spacer />
+      </Flex>
+    </>
   )
 }
 

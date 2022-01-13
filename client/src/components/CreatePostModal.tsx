@@ -2,7 +2,6 @@ import {
   Box,
   Input,
   Icon,
-  Text,
   useColorMode,
   useToken,
   useDisclosure,
@@ -16,23 +15,13 @@ import {
   ModalOverlay,
   FormControl,
   FormErrorMessage,
-  FormLabel,
   Textarea,
-  Divider,
 } from '@chakra-ui/react'
 import axios from 'axios'
 import { Formik, Form, FormikProps } from 'formik'
-import { useFormikContext } from 'formik'
-import { useRouter } from 'next/router'
 import React, { useRef } from 'react'
-import { IoMdDocument } from 'react-icons/io'
 import { IoPersonCircle } from 'react-icons/io5'
-import {
-  inputColor,
-  primaryBorderColor,
-  primaryComponentColor,
-  secondaryComponentColor,
-} from './colors'
+import { inputColor, primaryBorderColor, primaryComponentColor } from './colors'
 import { ICreatePost } from './interfaces'
 
 const CreatePostForm = ({
@@ -43,7 +32,6 @@ const CreatePostForm = ({
   handleBlur,
   handleSubmit,
 }) => {
-  const { colorMode } = useColorMode()
   return (
     <Form onSubmit={handleSubmit}>
       <FormControl
@@ -82,7 +70,6 @@ const CreatePostModal: React.FC<{ fetchPosts: () => Promise<void> }> = ({
   fetchPosts,
 }) => {
   const [gray500] = useToken('colors', ['gray.500'])
-  const router = useRouter()
   const formRef = useRef<FormikProps<ICreatePost>>()
   const submitForm = () => {
     if (formRef.current) {
@@ -121,6 +108,7 @@ const CreatePostModal: React.FC<{ fetchPosts: () => Promise<void> }> = ({
           alignItems='flex-start'
           bgColor={inputColor[colorMode]}
           _hover={{ cursor: 'text' }}
+          fontWeight='normal'
         >
           Create Post
         </Button>
@@ -161,7 +149,6 @@ const CreatePostModal: React.FC<{ fetchPosts: () => Promise<void> }> = ({
               }}
             ></Formik>
           </ModalBody>
-          {/* <Divider /> */}
           <ModalFooter pt='0' bgColor={primaryComponentColor[colorMode]}>
             <Button
               colorScheme='blue'

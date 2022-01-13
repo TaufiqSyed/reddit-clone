@@ -42,10 +42,10 @@ const Navbar: React.FC<{ user: IUser | null; logOut: () => void }> = ({
       alignItems='center'
       borderBottom='1px solid'
       borderColor={primaryBorderColor[colorMode]}
-      zIndex='2'
+      zIndex='4'
     >
       <Button
-        onClick={() => router.reload()}
+        onClick={() => router.replace('/')}
         m='0 15px'
         p='0'
         h='56px'
@@ -57,7 +57,7 @@ const Navbar: React.FC<{ user: IUser | null; logOut: () => void }> = ({
       >
         <Image
           position='relative'
-          src={`reddit-logo-with-text-on-${colorMode}.svg`}
+          src={`/reddit-logo-with-text-on-${colorMode}.svg`}
           alt='reddit logo'
           h='60px'
           display='inline-block'
@@ -88,7 +88,6 @@ const Navbar: React.FC<{ user: IUser | null; logOut: () => void }> = ({
               m='0 30px 0 8px'
               p='0'
               variant='outline'
-              // colorScheme='rose'
             >
               <Box
                 position='relative'
@@ -148,7 +147,6 @@ const Navbar: React.FC<{ user: IUser | null; logOut: () => void }> = ({
               h='32px'
               m='0 30px 0 8px'
               colorScheme='blue'
-              // color={{ light: 'blue.500', dark: 'blue.200' }[colorMode]}
               variant='ghost'
               display='inline-flex'
               alignItems='center'
@@ -167,11 +165,6 @@ const Navbar: React.FC<{ user: IUser | null; logOut: () => void }> = ({
                   </Box>
                 </MenuItem>
               </MenuGroup>
-              {/* <MenuDivider /> */}
-              {/* <MenuGroup title='Account'>
-                <MenuItem onClick={() => logInRedirect()}>Log in</MenuItem>
-                <MenuItem onClick={() => signUpRedirect()}>Sign up</MenuItem>
-              </MenuGroup> */}
             </MenuList>
           </Menu>
         </>

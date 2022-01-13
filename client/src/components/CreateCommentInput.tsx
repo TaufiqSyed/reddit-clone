@@ -1,30 +1,17 @@
 import {
   useToken,
-  useDisclosure,
   useColorMode,
   Box,
-  Icon,
   Button,
   Text,
   Textarea,
-  Input,
-  FormErrorMessage,
-  FormControl,
-  FormLabel,
   Flex,
 } from '@chakra-ui/react'
 import axios from 'axios'
-import { FormikProps, Formik, Form } from 'formik'
+import { Formik, Form } from 'formik'
 import { useRouter } from 'next/router'
-import { useRef } from 'react'
-import {
-  primaryBorderColor,
-  primaryComponentColor,
-  inputColor,
-  secondaryComponentColor,
-  textColor,
-} from './colors'
-import { ICreateComment, IUser } from './interfaces'
+import { primaryBorderColor, primaryComponentColor } from './colors'
+import { IUser } from './interfaces'
 
 export const CreateCommentInput: React.FC<{
   authUser: IUser
@@ -32,7 +19,6 @@ export const CreateCommentInput: React.FC<{
   fetchComments: (pid: string) => void
 }> = ({ authUser, post_id, fetchComments }) => {
   const [gray500] = useToken('colors', ['gray.500'])
-  const router = useRouter()
 
   const { colorMode } = useColorMode()
   return (
@@ -40,10 +26,9 @@ export const CreateCommentInput: React.FC<{
       <Box
         display='flex'
         w='100%'
-        m='0 auto 16px auto'
+        m='0 auto 0 auto'
         maxW='700px'
         minW='482x'
-        // h='58px'
         border='1px solid'
         borderColor={primaryBorderColor[colorMode]}
         borderRadius='5px'
@@ -98,8 +83,6 @@ const CreateCommentForm = ({ values, handleChange, handleSubmit }) => {
         p='5px 10px'
         w='100%'
         h='100px'
-        // flexDir='column'
-        // alignItems='flex-start'
         bgColor={primaryComponentColor[colorMode]}
         _hover={{ cursor: 'text' }}
         placeholder='What are your thoughts?'

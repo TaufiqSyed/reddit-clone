@@ -4,7 +4,6 @@ import {
   FormErrorMessage,
   FormLabel,
   Input,
-  Link,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -12,7 +11,6 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  Text,
   useColorMode,
   useDisclosure,
 } from '@chakra-ui/react'
@@ -21,10 +19,9 @@ import axios from 'axios'
 import { Form, Formik, FormikProps } from 'formik'
 import router from 'next/router'
 import React, { useRef } from 'react'
-import NextLink from 'next/link'
 import { DisplayingRegisterErrorMessagesSchema } from '../validation'
 import { IRegister } from './interfaces'
-import { inputColor, primaryComponentColor } from './colors'
+import { primaryComponentColor } from './colors'
 
 const RegisterForm = ({
   values,
@@ -33,9 +30,7 @@ const RegisterForm = ({
   handleChange,
   handleBlur,
   handleSubmit,
-  isSubmitting,
 }) => {
-  const { colorMode } = useColorMode()
   return (
     <Form onSubmit={handleSubmit} style={{ width: '100%' }}>
       <FormControl isRequired isInvalid={errors.username && touched.username}>

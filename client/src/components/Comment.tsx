@@ -1,20 +1,26 @@
-import { Box, Text } from '@chakra-ui/react'
+import { Box, Text, useColorMode } from '@chakra-ui/react'
 import React from 'react'
+import { primaryComponentColor } from './colors'
 const Comment: React.FC<{ id: number; content: string; username: string }> = ({
   id,
   content,
   username,
 }) => {
+  const { colorMode } = useColorMode()
+
   return (
-    <Box p='10px 15px 0 30px'>
+    <Box
+      p='8px 15px 8px 30px'
+      bgColor={primaryComponentColor[colorMode]}
+      borderRadius='5px'
+    >
       <Text
         display='block'
         w='100%'
         h='auto'
         position='relative'
-        m='5px 0'
         fontSize='10px'
-        color='gray.400'
+        color='gray.500'
       >
         {username}
       </Text>

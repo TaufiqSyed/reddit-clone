@@ -44,7 +44,6 @@ const Post: React.FC<
       ).data.vote_score
       setVote(updatedVote)
       setIsLoading(false)
-      // console.log(updatedVote)
     } catch (err) {
       console.error(err)
     }
@@ -82,7 +81,7 @@ const Post: React.FC<
     handleVote(id, updatedVote)
   }
   return (
-    <Flex w='100%' direction='column' alignItems='center'>
+    <Flex w='100%' direction='column' alignItems='center' m='0'>
       <Flex
         w='100%'
         maxW='700px'
@@ -93,6 +92,7 @@ const Post: React.FC<
         borderRadius='5px'
         flexDir='row'
         _hover={{ borderColor: gray500 }}
+        m='-1px -1px'
       >
         <Box
           position='relative'

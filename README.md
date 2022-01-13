@@ -50,6 +50,7 @@ Back-end
 ![reddit-clone 6](https://user-images.githubusercontent.com/61982529/149331881-8aef0333-ef31-428c-bc9d-c805823c0250.png)
 
 API Routes via Postman
+
 ![reddit-clone api](https://user-images.githubusercontent.com/61982529/149340184-a730653f-7ed1-4ad7-9d3a-0f07a621851f.png)
 
 
